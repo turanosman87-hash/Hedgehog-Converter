@@ -1,29 +1,30 @@
-name: Build Hedgehog EXE
-
-on: [push] # Kodu her güncellediğinde çalışır
+name: Build Hedgehog
+on: [push]
 
 jobs:
-  build:
-    runs-on: windows-latest # Gerçek bir Windows makinesi açar
-
+  windows-build:
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        pip install pyinstaller requests pdf2docx Pillow
+      - name: Install Libraries
+        run: |
+          pip install pyinstaller requests Pillow pdf2docx
 
-    - name: Build EXE
-      run: |
-        pyinstaller --noconsole --onefile --icon=hedgehog.png hedgehog_app.py
+      - name: Create EXE
+        run: |
+          pyinstaller --noconsole --onefile hedgehog_app.py
+          # İkon hatası riskini azaltmak için ikon parametresini şimdilik çıkardık.
+          # Önce programın çalıştığını görelim, sonra ikon ekleriz.
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Hedgehog-Windows-EXE
-        path: dist/hedgehog_app.exe
+      - name: Upload Finished EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hedgehog-Windows-Package
+          path: dist/hedgehog_app.exe
