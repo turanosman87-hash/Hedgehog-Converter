@@ -19,7 +19,7 @@ jobs:
 
       - name: Create EXE
         run: |
-          pyinstaller --noconsole --onefile hedgehog_app.py
+          pyinstaller --noconsole --onefile --icon=hedgehog.ico hedgehog_app.py
           # İkon hatası riskini azaltmak için ikon parametresini şimdilik çıkardık.
           # Önce programın çalıştığını görelim, sonra ikon ekleriz.
 
